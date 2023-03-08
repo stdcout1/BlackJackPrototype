@@ -27,6 +27,9 @@ int main()
 	cout << h;
 	*/
 	srand(time(0));
+	//Card* c = new Card(Card::SPADES, Card::ACE);
+	//Card* c2 = new Card(Card::HEARTS, Card::KING);
+	//Card* c3 = new Card(Card::CLUBS, Card::QUEEN);
 	Deck* deck = new Deck();
 	Hand* phand = new Hand();
 	Hand* dhand = new Hand();
@@ -35,9 +38,13 @@ int main()
 	cout << "The dealer has:" << endl;
 	deck->Draw(dhand);
 	deck->Draw(dhand);
+	//dhand->add_card(c);
+	//dhand->add_card(c2);
+	//dhand->add_card(c3);
 	dhand->getHandptr()[0]->setFaceup(true);
 	
-	cout << *dhand;
+	cout << *dhand ;
+	cout << dhand->getHand_Value() << endl;
 	cout << "You have: " << endl;
 	deck->Draw(phand);
 	deck->Draw(phand);
