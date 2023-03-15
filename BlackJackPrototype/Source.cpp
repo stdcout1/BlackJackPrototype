@@ -6,16 +6,23 @@
 using namespace std;
 
 const int RETURN_RATE = 1.5;
-
 enum states
 {
 	INSTANT_LOSS,
 	LOSSBYDEALER,
-	LOSSBYBUSS,
+	LOSSBYBUST,
 	WINBYBUST,
 	WINBYSELF,
 	INSTANT_WIN,
 	NOT_ENOUGH_MONEY
+};
+
+enum move_returns
+{
+	OK,
+	DELEAR16,
+	DEALERBUST,
+	PLAYERBUST,
 };
 
 
@@ -28,47 +35,45 @@ void show(Hand* ph, Hand* dh)
 	cout << *ph << endl;
 }
 
-void move(bool player, Hand* ph, Hand* dh, Deck* d)
+
+
+char ask()
 {
-	bool stand = false;
-	char choice;
 	cout << "Hit or stand: ";
+	char choice;
 	cin >> choice;
-	switch (choice)
+	return choice;
+}
+
+
+move_returns move(bool stand, Hand* ph, Hand* dh, Deck* d) // PLAYERBUST if you cant move after last move...
+{
+	if (stand)
 	{
-		case int('h') :
-			break;
-		case int('s') :
-			stand = true;
-			move(false, ph, dh, d);
-			break;
-		default:
-			cout << "Invalid command" << endl;
-			move(player, ph, dh, d);
-			break;
-	}	
-	
-	if (player)
-	{
-		d->Draw(ph);
-		while (ph->getHand_Value() < 21 || stand == true)
+		//if standing do dealer logic
+		d->Draw(dh);
+		show(ph, dh);
+		if (dh->getHand_Value() > 16)
 		{
-			show(ph, dh);
-			move(player, ph, dh, d);
+			return DELEAR16;
 		}
-		return;
+		else if (dh->getHand_Value() > 21)
+		{
+			return DEALERBUST;
+		}
+		else
+		{
+			return OK;
+		}
 	}
 	else
 	{
-		d->Draw(dh);
-		while (dh->getHand_Value() < 17)
-		{
-			show(ph, dh);
-			move(player, ph, dh, d);
-		}
-		return;
+		//hit logic for player
+		d->Draw(ph);
+		show(ph, dh);
+		return ph->getHand_Value() > 21 ? PLAYERBUST : OK;
 	}
-
+	
 }
 
 
@@ -88,12 +93,14 @@ states PlayGame(int * balance)
 	cout << "The dealer has:" << endl;
 	deck->Draw(dhand);
 	deck->Draw(dhand);
-	dhand->getHandptr()[0]->setFaceup(true);
+	dhand->getHandptr()[0]->setFaceup(false);
 	cout << *dhand;
+	cout << dhand->getHand_Value() << endl;
 	cout << "You have: " << endl;
 	deck->Draw(phand);
 	deck->Draw(phand);
 	cout << *phand;
+	cout << phand->getHand_Value() << endl;
 	//preflip bj check
 	if (phand->getHand_Value() == 21)
 	{
@@ -108,29 +115,51 @@ states PlayGame(int * balance)
 		return INSTANT_LOSS;
 	}
 
-	cout << "Hit or stand: ";
-	char choice;
-	cin >> choice;
-	bool invalid = true;
-	while (invalid)
+	
+	bool stand = false;
+	move_returns cont = OK;
+	char choice = 's';
+	while (cont == OK)
 	{
+		if (!stand)
+		{
+			cout << "Hit or stand: ";
+			char choice;
+			cin >> choice;
+		}
 		switch (choice)
 		{
 			case int('h'):
-				invalid = false;
-				deck->Draw(phand);
-				show(phand, dhand);
-				move(true, phand, dhand, deck);
+				cont = move(false, phand, dhand, deck);
 				break;
 			case int('s'):
-				invalid = false;
-				deck->Draw(dhand);
-				show(phand, dhand);
-				move(false, phand, dhand, deck);
+				cont = move(true, phand, dhand, deck);
+				stand = true;
 				break;
 			default:
 				cout << "Invalid command" << endl;
 				break;	
+		}
+	}
+	//after this line no more cards are added
+
+	if (cont == DEALERBUST)
+	{
+		return WINBYBUST;
+	}
+	else if (cont == PLAYERBUST)
+	{
+		return LOSSBYBUST;
+	}
+	else
+	{
+		if (dhand->getHand_Value() < phand->getHand_Value())
+		{
+			return LOSSBYDEALER;
+		}
+		else
+		{
+			return WINBYSELF;
 		}
 	}
 
@@ -162,7 +191,7 @@ int main()
 	srand(time(0));
 	int bal = 30;
 	states s = PlayGame(&bal);
-	cout << s;
+	return s;
 	//Card* c = new Card(Card::SPADES, Card::ACE);
 	//Card* c2 = new Card(Card::HEARTS, Card::KING);
 	//Card* c3 = new Card(Card::CLUBS, Card::QUEEN);

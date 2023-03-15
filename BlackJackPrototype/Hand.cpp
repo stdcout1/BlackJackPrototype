@@ -81,12 +81,13 @@ int Hand::getHand_Value()
 			acecount++;
 		}
 	}
-	if (tval < 21)
+	int modulodiff = (21 - tval) / 10;
+	if (tval + 10*modulodiff <= 21 && acecount != 0)
 	{
-		int modulodiff = (21 - tval)/10;
 		tval += 10 * modulodiff;
 	}
 	return tval;
+	// make it 21 unless it busts....
 
 }
 

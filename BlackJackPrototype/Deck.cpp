@@ -16,6 +16,7 @@ Deck::Deck()
 
 Card* Deck::Draw(Hand* h)
 {
+	// add anti pair
 	int rn = rand() % 52 + 1;
 	Card* card = getHandptr()[rn];
 	if (card == nullptr)

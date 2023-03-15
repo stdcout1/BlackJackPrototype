@@ -5,7 +5,7 @@
 using namespace std;
 Card::Card()
 {
-	display_m = Card::Display(0);
+	display_m = Card::Display(3);
 	suit_m = Card::Suit(0);
 }
 Card::Card(Suit s, Display d)
