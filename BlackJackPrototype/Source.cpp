@@ -115,7 +115,6 @@ states PlayGame(int * balance)
 		return INSTANT_LOSS;
 	}
 
-	
 	bool stand = false;
 	move_returns cont = OK;
 	char choice = 's';
