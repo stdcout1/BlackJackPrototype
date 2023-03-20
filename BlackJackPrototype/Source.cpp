@@ -31,7 +31,7 @@ void show(Hand* ph, Hand* dh)
 	system("cls");
 	cout << "Dealers Cards" << endl;
 	cout << *dh << endl;
-	cout << "Player Hads" << endl;
+	cout << "Player Hands" << endl;
 	cout << *ph << endl;
 }
 
@@ -51,6 +51,7 @@ move_returns move(bool stand, Hand* ph, Hand* dh, Deck* d) // PLAYERBUST if you 
 	if (stand)
 	{
 		//if standing do dealer logic
+		dh->getHandptr()[0]->setFaceup(false);
 		d->Draw(dh);
 		show(ph, dh);
 		if (dh->getHand_Value() > 16)
@@ -93,7 +94,7 @@ states PlayGame(int * balance)
 	cout << "The dealer has:" << endl;
 	deck->Draw(dhand);
 	deck->Draw(dhand);
-	dhand->getHandptr()[0]->setFaceup(false);
+	dhand->getHandptr()[0]->setFaceup(true);
 	cout << *dhand;
 	cout << dhand->getHand_Value() << endl;
 	cout << "You have: " << endl;
@@ -123,7 +124,6 @@ states PlayGame(int * balance)
 		if (!stand)
 		{
 			cout << "Hit or stand: ";
-			char choice;
 			cin >> choice;
 		}
 		switch (choice)
