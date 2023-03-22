@@ -168,6 +168,8 @@ states PlayGame(int * balance, int * betamount)
 
 void resultofgame(states s, int* balance, int* betamount) {
 
+	
+
 	double new_win_balance = *balance + (1.5 * *betamount);
 	double new_loss_balance = *balance - *betamount;
 
@@ -213,7 +215,7 @@ void resultofgame(states s, int* balance, int* betamount) {
 
 
 int main()
-{  
+{
 	/*
 	Card* c = new Card(Card::SPADES, Card::THREE);
 	Card* c2 = new Card(Card::SPADES, Card::TWO);
@@ -225,7 +227,7 @@ int main()
 	h.add_card(c3);
 	h.add_card(c4);
 	h.remove_card(0);
-	
+
 	cout << h;
 	cout << h.getHand_Value() << endl;
 
@@ -234,11 +236,34 @@ int main()
 	d->Draw(&h);
 	cout << h;
 	*/
+	system("color 20");
+	int bal = 0, betam = 0;
+
+	fstream scoresfile("blackjackscores.txt");
+	if (scoresfile) 
+	{
+		scoresfile >> bal;
+		scoresfile.close();
+	}
+	else {
+		scoresfile.close();
+		bal = 100;
+		ofstream _("blackjackscores.txt");
+		_ << bal;
+		_.close();
+		
+		
+	}
+	cout << bal << endl;
 	srand(time(0));
-	int bal = 30, betam = 0;
+	
 	states s = PlayGame(&bal, &betam);
 	resultofgame(s, &bal, &betam);
 	return s;
+
+	ofstream scoresfilev2("blackjackscores.txt", ios::trunc);
+	scoresfilev2 << bal;
+	scoresfilev2.close();
 	//Card* c = new Card(Card::SPADES, Card::ACE);
 	//Card* c2 = new Card(Card::HEARTS, Card::KING);
 	//Card* c3 = new Card(Card::CLUBS, Card::QUEEN);
