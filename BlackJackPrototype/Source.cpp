@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Card.h"
 #include "Hand.h"
 #include "Deck.h"
@@ -78,16 +79,17 @@ move_returns move(bool stand, Hand* ph, Hand* dh, Deck* d) // PLAYERBUST if you 
 }
 
 
-states PlayGame(int * balance)
+states PlayGame(int * balance, int * betamount)
 {
 	Deck* deck = new Deck();
 	Hand* phand = new Hand();
 	Hand* dhand = new Hand();
-	int betamount;
+	
+	
 	cout << "Welome to the game" << endl;
 	cout << "Enter ammount to bet: ";
-	cin >> betamount;
-	if (*balance-betamount < 0)
+	cin >> *betamount;
+	if (*balance-*betamount < 0)
 	{
 		return NOT_ENOUGH_MONEY;
 	}
@@ -150,9 +152,9 @@ states PlayGame(int * balance)
 	{
 		return LOSSBYBUST;
 	}
-	else
+	else // this is if dealer16
 	{
-		if (dhand->getHand_Value() < phand->getHand_Value())
+		if (dhand->getHand_Value() > phand->getHand_Value())
 		{
 			return LOSSBYDEALER;
 		}
@@ -163,6 +165,39 @@ states PlayGame(int * balance)
 	}
 
 };
+
+void resultofgame(states s, int * balance, int * betamount) {
+	
+	*balance+=(1.5 * *betamount);
+	
+		switch (int(s))
+		{
+			case 0:
+				cout << "Instant Loss";
+				break;
+			case 1:
+				cout << "1";
+				break;
+			case 2:
+				cout << "2";
+				break;
+			case 3:
+				cout << "3";
+				break;
+			case 4:
+				cout << "4";
+				break;
+			case 5:
+				cout << "5";
+				break;
+			case 6:
+				cout << "6";
+				break;
+		default:
+			break;
+		}
+
+}
 
 
 int main()
@@ -188,8 +223,9 @@ int main()
 	cout << h;
 	*/
 	srand(time(0));
-	int bal = 30;
-	states s = PlayGame(&bal);
+	int bal = 30, betam = 0;
+	states s = PlayGame(&bal, &betam);
+	resultofgame(s, &bal, &betam);
 	return s;
 	//Card* c = new Card(Card::SPADES, Card::ACE);
 	//Card* c2 = new Card(Card::HEARTS, Card::KING);
