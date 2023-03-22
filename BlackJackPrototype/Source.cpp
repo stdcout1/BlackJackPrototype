@@ -169,40 +169,47 @@ states PlayGame(int * balance, int * betamount)
 void resultofgame(states s, int* balance, int* betamount) {
 
 	
-
-	double new_win_balance = *balance + (1.5 * *betamount);
-	double new_loss_balance = *balance - *betamount;
+	int multiplier = 0;
+	if (s < 2)
+	{
+		multiplier = 1.5;
+	}
+	else
+	{
+		multiplier = -1;
+	}
+	 *balance += (multiplier**betamount);
 
 	switch (int(s))
 	{
 	case 0:
 		cout << "Instant loss by dealer\n";
-		cout << "Your new balance is " << new_loss_balance << endl;
+		cout << "Your new balance is " << *balance << endl;
 
 		break;
 	case 1:
 		cout << "Loss by dealer\n";
-		cout << "Your new balance is " << new_loss_balance << endl;
+		cout << "Your new balance is " << *balance << endl;
 
 		break;
 	case 2:
 		cout << "You have gone over 21, you loss\n";
-		cout << "Your new balance is " << new_loss_balance << endl;
+		cout << "Your new balance is " << *balance << endl;
 
 		break;
 	case 3:
 		cout << "The dealer has busted you win!\n";
-		cout << "Your new balance is " << new_win_balance << endl;
+		cout << "Your new balance is " << *balance << endl;
 
 		break;
 	case 4:
 		cout << "Your cards are closest to 21!, you win\n";
-		cout << "Your new balance is " << new_win_balance << endl;
+		cout << "Your new balance is " << *balance << endl;
 
 		break;
 	case 5:
 		cout << "You got blackjack!, you win\n";
-		cout << "Your new balance is " << new_win_balance << endl;
+		cout << "Your new balance is " << *balance << endl;
 		break;
 	case 6:
 		cout << "insufficient funds.";
@@ -260,10 +267,11 @@ int main()
 	states s = PlayGame(&bal, &betam);
 	resultofgame(s, &bal, &betam);
 	return s;
-
+	cout << bal;
 	ofstream scoresfilev2("blackjackscores.txt", ios::trunc);
 	scoresfilev2 << bal;
 	scoresfilev2.close();
+
 	//Card* c = new Card(Card::SPADES, Card::ACE);
 	//Card* c2 = new Card(Card::HEARTS, Card::KING);
 	//Card* c3 = new Card(Card::CLUBS, Card::QUEEN);
