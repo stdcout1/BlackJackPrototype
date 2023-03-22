@@ -166,42 +166,56 @@ states PlayGame(int * balance, int * betamount)
 
 };
 
-void resultofgame(states s, int * balance, int * betamount) {
+void resultofgame(states s, int* balance, int* betamount) {
+
 	
-	*balance+=(1.5 * *betamount);
-	
-		switch (int(s))
-		{
-			case 0:
-				cout << "Instant Loss";
-				break;
-			case 1:
-				cout << "1";
-				break;
-			case 2:
-				cout << "2";
-				break;
-			case 3:
-				cout << "3";
-				break;
-			case 4:
-				cout << "4";
-				break;
-			case 5:
-				cout << "5";
-				break;
-			case 6:
-				cout << "6";
-				break;
-		default:
-			break;
-		}
+
+	double new_win_balance = *balance + (1.5 * *betamount);
+	double new_loss_balance = *balance - *betamount;
+
+	switch (int(s))
+	{
+	case 0:
+		cout << "Instant loss by dealer\n";
+		cout << "Your new balance is " << new_loss_balance << endl;
+
+		break;
+	case 1:
+		cout << "Loss by dealer\n";
+		cout << "Your new balance is " << new_loss_balance << endl;
+
+		break;
+	case 2:
+		cout << "You have gone over 21, you loss\n";
+		cout << "Your new balance is " << new_loss_balance << endl;
+
+		break;
+	case 3:
+		cout << "The dealer has busted you win!\n";
+		cout << "Your new balance is " << new_win_balance << endl;
+
+		break;
+	case 4:
+		cout << "Your cards are closest to 21!, you win\n";
+		cout << "Your new balance is " << new_win_balance << endl;
+
+		break;
+	case 5:
+		cout << "You got blackjack!, you win\n";
+		cout << "Your new balance is " << new_win_balance << endl;
+		break;
+	case 6:
+		cout << "insufficient funds.";
+		break;
+	default:
+		break;
+	}
 
 }
 
 
 int main()
-{  
+{
 	/*
 	Card* c = new Card(Card::SPADES, Card::THREE);
 	Card* c2 = new Card(Card::SPADES, Card::TWO);
@@ -213,7 +227,7 @@ int main()
 	h.add_card(c3);
 	h.add_card(c4);
 	h.remove_card(0);
-	
+
 	cout << h;
 	cout << h.getHand_Value() << endl;
 
@@ -222,11 +236,34 @@ int main()
 	d->Draw(&h);
 	cout << h;
 	*/
+	system("color 20");
+	int bal = 0, betam = 0;
+
+	fstream scoresfile("blackjackscores.txt");
+	if (scoresfile) 
+	{
+		scoresfile >> bal;
+		scoresfile.close();
+	}
+	else {
+		scoresfile.close();
+		bal = 100;
+		ofstream _("blackjackscores.txt");
+		_ << bal;
+		_.close();
+		
+		
+	}
+	cout << bal << endl;
 	srand(time(0));
-	int bal = 30, betam = 0;
+	
 	states s = PlayGame(&bal, &betam);
 	resultofgame(s, &bal, &betam);
 	return s;
+
+	ofstream scoresfilev2("blackjackscores.txt", ios::trunc);
+	scoresfilev2 << bal;
+	scoresfilev2.close();
 	//Card* c = new Card(Card::SPADES, Card::ACE);
 	//Card* c2 = new Card(Card::HEARTS, Card::KING);
 	//Card* c3 = new Card(Card::CLUBS, Card::QUEEN);
