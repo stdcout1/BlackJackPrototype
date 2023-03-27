@@ -169,8 +169,8 @@ states PlayGame(int * balance, int * betamount)
 void resultofgame(states s, int* balance, int* betamount) {
 
 	
-	int multiplier = 0;
-	if (s < 2)
+	double multiplier = 0;
+	if (s > 3)
 	{
 		multiplier = 1.5;
 	}
@@ -178,7 +178,7 @@ void resultofgame(states s, int* balance, int* betamount) {
 	{
 		multiplier = -1;
 	}
-	 *balance += (multiplier**betamount);
+	 *balance = *balance + (multiplier**betamount);
 
 	switch (int(s))
 	{
