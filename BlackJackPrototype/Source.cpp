@@ -154,7 +154,12 @@ states PlayGame(int * balance, int * betamount)
 	}
 	else // this is if dealer16
 	{
-		if (dhand->getHand_Value() > phand->getHand_Value())
+		
+		if (dhand->getHand_Value() > 21)
+		{
+			return WINBYSELF;
+		}
+		else if (dhand->getHand_Value() > phand->getHand_Value())
 		{
 			return LOSSBYDEALER;
 		}
@@ -177,12 +182,16 @@ void resultofgame(states s, int* balance, int* betamount) {
 	else
 	{
 		multiplier = -1;
+		if (s == 0) {
+			multiplier = 0;
+		}
 	}
 	 *balance = *balance + (multiplier**betamount);
 
 	switch (int(s))
 	{
 	case 0:
+		
 		cout << "Instant loss by dealer\n";
 		cout << "Your new balance is " << *balance << endl;
 
