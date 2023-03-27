@@ -182,9 +182,7 @@ void resultofgame(states s, int* balance, int* betamount) {
 	else
 	{
 		multiplier = -1;
-		if (s == 0) {
-			multiplier = 0;
-		}
+		
 	}
 	 *balance = *balance + (multiplier**betamount);
 
@@ -256,7 +254,7 @@ int main()
 	int bal = 0, betam = 0;
 
 	fstream scoresfile("blackjackscores.txt");
-	if (scoresfile) 
+	if (scoresfile.is_open()) 
 	{
 		scoresfile >> bal;
 		scoresfile.close();
