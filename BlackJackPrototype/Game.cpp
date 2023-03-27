@@ -100,8 +100,6 @@ void Game::resultofgame() {
 	}
 	bal = bal + (multiplier * betammount);
 
-
-
 	switch (int(gamestate))
 	{
 	case 0:
