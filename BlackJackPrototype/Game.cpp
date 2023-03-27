@@ -100,6 +100,8 @@ void Game::resultofgame() {
 	}
 	bal = bal + (multiplier * betammount);
 
+
+
 	switch (int(gamestate))
 	{
 	case 0:
@@ -137,6 +139,36 @@ void Game::resultofgame() {
 		break;
 	default:
 		break;
+	}
+
+	//Win
+	if (gamestate > 3) {
+		cout << "\nYOU WIN!\n";
+		system("Color 60");
+		system("Color E0");
+		system("Color A0");
+		system("Color 20");
+		system("Color A0");
+		system("Color 90");
+		system("Color 10");
+		system("Color 90");
+		system("Color B0");
+		system("Color 30");
+		system("Color B0");
+		system("Color D0");
+		system("Color 50");
+	}
+	//Lose
+	else {
+		cout << "\nYou lose. Better luck next time!\n";
+		system("Color F0");
+		system("Color F0");
+		system("Color 70");
+		system("Color 70");
+		system("Color C0");
+		system("Color C0");
+		system("Color 40");
+		system("Color 40");
 	}
 
 }
