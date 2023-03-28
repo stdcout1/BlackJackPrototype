@@ -202,12 +202,16 @@ void Game::PlayGame()
 		dhand->getHandptr()[0]->setFaceup(false);
 		show(phand, dhand);
 		gamestate =  INSTANT_WIN;
+		resultofgame();
+		return;
 	}
 	else if (dhand->getHand_Value() == 21)
 	{
 		dhand->getHandptr()[0]->setFaceup(false);
 		show(phand, dhand);
 		gamestate = INSTANT_LOSS;
+		resultofgame();
+		return;
 	}
 
 	bool stand = false;

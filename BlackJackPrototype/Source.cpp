@@ -12,10 +12,11 @@ using namespace std;
 
 int main()
 {
-	system("color 20");
+	
 	char play_again = 'y';
 	while (play_again == 'y')
 	{
+		system("color 20");
 		system("cls");
 		Game* game = new Game();
 		srand(time(0));

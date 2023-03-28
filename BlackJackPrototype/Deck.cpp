@@ -19,12 +19,21 @@ Card* Deck::Draw(Hand* h)
 	// add anti pair
 	int rn = rand() % 52 + 1;
 	Card* card = getHandptr()[rn];
+	// the bug was here; basically, you cant recursivly redo this as it causes a gap in the deck array
+	/*
 	if (card == nullptr)
 	{
 		Draw(h);
 	}
-
+	*/
+	
+	while (card == nullptr)
+	{
+		rn = rand() % 52 + 1;
+		card = getHandptr()[rn];
+	}
 	h->add_card(card);
-	remove_card(rn);
+	//remove_card(rn);
+	card = nullptr; // cant remove card since all we do is transfer owenership
 	return card;
 }
