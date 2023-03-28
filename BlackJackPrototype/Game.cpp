@@ -89,7 +89,7 @@ void Game::resultofgame() {
 
 
 	double multiplier = 0;
-	if (gamestate > 3)
+	if (gamestate > 3 && gamestate == 6)
 	{
 		multiplier = 1.5;
 	}
@@ -184,6 +184,8 @@ void Game::PlayGame()
 	if (bal - betammount < 0)
 	{
 		gamestate = NOT_ENOUGH_MONEY;
+		resultofgame();
+		return;
 	}
 	cout << "The dealer has:" << endl;
 	deck->Draw(dhand);

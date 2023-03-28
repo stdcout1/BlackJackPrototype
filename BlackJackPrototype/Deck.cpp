@@ -34,6 +34,6 @@ Card* Deck::Draw(Hand* h)
 	}
 	h->add_card(card);
 	//remove_card(rn);
-	card = nullptr; // cant remove card since all we do is transfer owenership
+	getHandptr()[rn] = nullptr; // cant remove card since all we do is transfer owenership
 	return card;
 }
