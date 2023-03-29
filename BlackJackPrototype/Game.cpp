@@ -89,7 +89,7 @@ void Game::resultofgame() {
 
 
 	double multiplier = 0;
-	if (gamestate > 3)
+	if (gamestate > 3 && gamestate == 6)
 	{
 		multiplier = 1.5;
 	}
@@ -139,6 +139,36 @@ void Game::resultofgame() {
 		break;
 	}
 
+	//Win
+	if (gamestate > 3) {
+		cout << "\nYOU WIN!\n";
+		system("Color 60");
+		system("Color E0");
+		system("Color A0");
+		system("Color 20");
+		system("Color A0");
+		system("Color 90");
+		system("Color 10");
+		system("Color 90");
+		system("Color B0");
+		system("Color 30");
+		system("Color B0");
+		system("Color D0");
+		system("Color 50");
+	}
+	//Lose
+	else {
+		cout << "\nYou lose. Better luck next time!\n";
+		system("Color F0");
+		system("Color F0");
+		system("Color 70");
+		system("Color 70");
+		system("Color C0");
+		system("Color C0");
+		system("Color 40");
+		system("Color 40");
+	}
+
 }
 
 void Game::PlayGame()
@@ -154,6 +184,8 @@ void Game::PlayGame()
 	if (bal - betammount < 0)
 	{
 		gamestate = NOT_ENOUGH_MONEY;
+		resultofgame();
+		return;
 	}
 	cout << "The dealer has:" << endl;
 	deck->Draw(dhand);
@@ -172,12 +204,16 @@ void Game::PlayGame()
 		dhand->getHandptr()[0]->setFaceup(false);
 		show(phand, dhand);
 		gamestate =  INSTANT_WIN;
+		resultofgame();
+		return;
 	}
 	else if (dhand->getHand_Value() == 21)
 	{
 		dhand->getHandptr()[0]->setFaceup(false);
 		show(phand, dhand);
 		gamestate = INSTANT_LOSS;
+		resultofgame();
+		return;
 	}
 
 	bool stand = false;
