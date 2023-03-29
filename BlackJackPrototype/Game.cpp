@@ -24,7 +24,7 @@ Game::Game()
 		_ << bal;
 		_.close();
 	}
-	cout << bal;
+	cout << "Your current balance is:" << bal << endl;
 }
 
 Game::~Game()

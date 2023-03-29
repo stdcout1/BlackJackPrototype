@@ -22,7 +22,7 @@ int main()
 		srand(time(0));
 		game->PlayGame();
 		delete game;
-		cout << "Would you like to play a new game?";
+		cout << "Would you like to play a new game? (please input y for yes and n for no)";
 		cin >> play_again;
 	}
 }
