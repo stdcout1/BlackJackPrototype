@@ -29,8 +29,16 @@ public:
 		DELEAR16,
 		DEALERBUST,
 		PLAYERBUST,
+		DOUBLEDOWNRETURN
+	};
+
+	enum move_options
+	{
+		HIT,
+		STAND,
 		DOUBLEDOWN
 	};
+
 	Game();
 	~Game();
 	Hand* getPlayerPtr() { return ph; }
@@ -48,7 +56,7 @@ public:
 	//mebers
 	void show();
 	char ask();
-	move_returns move(bool stand); // PLAYERBUST if you cant move after last move...
+	move_returns move(move_options move); // PLAYERBUST if you cant move after last move...
 	void PlayGame();
 	void resultofgame();
 private:

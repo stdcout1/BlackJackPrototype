@@ -58,9 +58,9 @@ char Game::ask()
 }
 
 
-Game::move_returns Game::move(bool stand) // PLAYERBUST if you cant move after last move...
+Game::move_returns Game::move(move_options move) // PLAYERBUST if you cant move after last move...
 {
-	if (stand)
+	if (move == STAND)
 	{
 		//if standing do dealer logic
 		dh->getHandptr()[0]->setFaceup(false);
@@ -80,12 +80,41 @@ Game::move_returns Game::move(bool stand) // PLAYERBUST if you cant move after l
 			return OK;
 		}
 	}
-	else
+	else if (move == HIT)
 	{
 		//hit logic for player
 		d->Draw(ph);
 		show();
 		return ph->getHand_Value() > 21 ? PLAYERBUST : OK;
+	}
+
+	else if (move == DOUBLEDOWN)
+	{
+		if (ph->getNumofcards() == 2)
+		{
+			d->Draw(ph);
+			show();
+			return ph->getHand_Value() > 21 ? PLAYERBUST : DOUBLEDOWNRETURN;
+		}
+		else
+		{
+			dh->getHandptr()[0]->setFaceup(false);
+
+			show();
+			if (dh->getHand_Value() >= 16)
+			{
+				return DELEAR16;
+			}
+			else if (dh->getHand_Value() > 21)
+			{
+				return DEALERBUST;
+			}
+			else
+			{
+				d->Draw(dh);
+				return OK;
+			}
+		}
 	}
 
 }
@@ -231,20 +260,16 @@ void Game::PlayGame()
 		switch (choice)
 		{
 			case int('h') :
-				cont = move(false);
+				cont = move(HIT);
 				break;
 			case int('s') :
-				cont = move(true);
+				cont = move(STAND);
 				stand = true;
 				break;
 			case int('d') :
-				d->Draw(ph);
-				while (temp == OK)
-				{
-					temp = move(true);
-				}
-				cont = DOUBLEDOWN;
+				cont = move(DOUBLEDOWN);
 				stand = true;
+
 				break;
 			default:
 				cout << "Invalid command" << endl;
