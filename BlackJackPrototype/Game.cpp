@@ -8,6 +8,10 @@ using namespace std;
 
 Game::Game()
 {
+	d = new Deck();
+	ph = new Hand();
+	dh = new Hand();
+
 	bal = 0;
 	betammount = 0;
 
@@ -25,6 +29,7 @@ Game::Game()
 		_.close();
 	}
 	cout << bal;
+
 }
 
 Game::~Game()
@@ -33,7 +38,7 @@ Game::~Game()
 	scoresfilev2 << bal;
 	scoresfilev2.close();
 }
-void Game::show(Hand* ph, Hand* dh)
+void Game::show()
 {
 	system("cls");
 	cout << "Dealers Cards" << endl;
@@ -53,15 +58,15 @@ char Game::ask()
 }
 
 
-Game::move_returns Game::move(bool stand, Hand* ph, Hand* dh, Deck* d) // PLAYERBUST if you cant move after last move...
+Game::move_returns Game::move(bool stand) // PLAYERBUST if you cant move after last move...
 {
 	if (stand)
 	{
 		//if standing do dealer logic
 		dh->getHandptr()[0]->setFaceup(false);
-		d->Draw(dh);
-		show(ph, dh);
-		if (dh->getHand_Value() > 16)
+		
+		show();
+		if (dh->getHand_Value() >= 16)
 		{
 			return DELEAR16;
 		}
@@ -71,6 +76,7 @@ Game::move_returns Game::move(bool stand, Hand* ph, Hand* dh, Deck* d) // PLAYER
 		}
 		else
 		{
+			d->Draw(dh);
 			return OK;
 		}
 	}
@@ -78,7 +84,7 @@ Game::move_returns Game::move(bool stand, Hand* ph, Hand* dh, Deck* d) // PLAYER
 	{
 		//hit logic for player
 		d->Draw(ph);
-		show(ph, dh);
+		show();
 		return ph->getHand_Value() > 21 ? PLAYERBUST : OK;
 	}
 
@@ -173,44 +179,39 @@ void Game::resultofgame() {
 
 void Game::PlayGame()
 {
-	Deck* deck = new Deck();
-	Hand* phand = new Hand();
-	Hand* dhand = new Hand();
-
-
 	cout << "Welome to the game" << endl;
 	cout << "Enter ammount to bet: ";
 	cin >> betammount;
-	if (bal - betammount < 0)
+	if (bal - betammount < 0 || betammount < 0)
 	{
 		gamestate = NOT_ENOUGH_MONEY;
 		resultofgame();
 		return;
 	}
 	cout << "The dealer has:" << endl;
-	deck->Draw(dhand);
-	deck->Draw(dhand);
-	dhand->getHandptr()[0]->setFaceup(true);
-	cout << *dhand;
-	cout << dhand->getHand_Value() << endl;
+	d->Draw(dh);
+	d->Draw(dh);
+	dh->getHandptr()[0]->setFaceup(true);
+	cout << *dh;
+	cout << dh->getHand_Value() << endl;
 	cout << "You have: " << endl;
-	deck->Draw(phand);
-	deck->Draw(phand);
-	cout << *phand;
-	cout << phand->getHand_Value() << endl;
+	d->Draw(ph);
+	d->Draw(ph);
+	cout << *ph;
+	cout << ph->getHand_Value() << endl;
 	//preflip bj check
-	if (phand->getHand_Value() == 21)
+	if (ph->getHand_Value() == 21)
 	{
-		dhand->getHandptr()[0]->setFaceup(false);
-		show(phand, dhand);
+		dh->getHandptr()[0]->setFaceup(false);
+		show();
 		gamestate =  INSTANT_WIN;
 		resultofgame();
 		return;
 	}
-	else if (dhand->getHand_Value() == 21)
+	else if (dh->getHand_Value() == 21)
 	{
-		dhand->getHandptr()[0]->setFaceup(false);
-		show(phand, dhand);
+		dh->getHandptr()[0]->setFaceup(false);
+		show();
 		gamestate = INSTANT_LOSS;
 		resultofgame();
 		return;
@@ -219,25 +220,35 @@ void Game::PlayGame()
 	bool stand = false;
 	move_returns cont = OK;
 	char choice = 's';
+	move_returns temp = OK;
 	while (cont == OK)
 	{
 		if (!stand)
 		{
-			cout << "Hit or stand: ";
+			cout << "Hit, stand or double down: ";
 			cin >> choice;
 		}
 		switch (choice)
 		{
 			case int('h') :
-				cont = move(false, phand, dhand, deck);
+				cont = move(false);
 				break;
-				case int('s') :
-					cont = move(true, phand, dhand, deck);
-					stand = true;
-					break;
-				default:
-					cout << "Invalid command" << endl;
-					break;
+			case int('s') :
+				cont = move(true);
+				stand = true;
+				break;
+			case int('d') :
+				d->Draw(ph);
+				while (temp == OK)
+				{
+					temp = move(true);
+				}
+				cont = DOUBLEDOWN;
+				stand = true;
+				break;
+			default:
+				cout << "Invalid command" << endl;
+				break;
 		}
 	}
 	//after this line no more cards are added
@@ -250,14 +261,14 @@ void Game::PlayGame()
 	{
 		gamestate = LOSSBYBUST;
 	}
-	else // this is if dealer16
+	else // this is if dealer16 or double down
 	{
 
-		if (dhand->getHand_Value() > 21)
+		if (dh->getHand_Value() > 21)
 		{
 			gamestate = WINBYSELF;
 		}
-		else if (dhand->getHand_Value() > phand->getHand_Value())
+		else if (dh->getHand_Value() > ph->getHand_Value())
 		{
 			gamestate = LOSSBYDEALER;
 		}

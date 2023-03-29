@@ -29,6 +29,7 @@ public:
 		DELEAR16,
 		DEALERBUST,
 		PLAYERBUST,
+		DOUBLEDOWN
 	};
 	Game();
 	~Game();
@@ -45,9 +46,9 @@ public:
 	double setBetAmmount(double ba) { betammount = ba; }
 
 	//mebers
-	void show(Hand* ph, Hand* dh);
+	void show();
 	char ask();
-	move_returns move(bool stand, Hand* ph, Hand* dh, Deck* d); // PLAYERBUST if you cant move after last move...
+	move_returns move(bool stand); // PLAYERBUST if you cant move after last move...
 	void PlayGame();
 	void resultofgame();
 private:
