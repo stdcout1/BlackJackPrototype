@@ -24,7 +24,7 @@ Game::Game()
 		_ << bal;
 		_.close();
 	}
-	cout << bal;
+	cout << "Your current balance is:" << bal << endl;
 }
 
 Game::~Game()
@@ -223,7 +223,7 @@ void Game::PlayGame()
 	{
 		if (!stand)
 		{
-			cout << "Hit or stand: ";
+			cout << "Hit or stand (please input h for hit and s for stand): ";
 			cin >> choice;
 		}
 		switch (choice)

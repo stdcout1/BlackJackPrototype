@@ -16,34 +16,7 @@ Hand::Hand(Card * c)
 	handptr[num_of_cards] = c;
 	num_of_cards++;
 }
-void Hand::copy(Card** source, Card** dest, int ignore_pos)
-{
-	//manual deep copy
-	for (int i = 0,v = 0; i < num_of_cards; i++,v++)
-	{
-		//cout << i;
-		if (i == ignore_pos)// dont include ignore pos?
-		{
-			delete (source[i]); //delete object to prevent memory leak
-			source[i] = nullptr;
-			v--;
-			continue;
-		} 
-		dest[v] = source[i];
-		source[i] = nullptr;
-	}
-}
 
-int Hand::search(Card* c)
-{
-	for (int i = 0; i < num_of_cards; i++)
-	{
-		if (handptr[i] == c)
-		{
-			return i;
-		}
-	}
-}
 
 void Hand::add_card(Card* c)
 {
@@ -51,22 +24,7 @@ void Hand::add_card(Card* c)
 	num_of_cards++;
 }
 
-void Hand::remove_card(int position)
-{
-	Card* copyptr[52] = {nullptr};
-	copy(handptr, copyptr, position);
-	copy(copyptr, handptr);
-	num_of_cards--;
-}
 
-void Hand::remove_card(Card* c)
-{
-	int position = search(c);
-	Card* copyptr[52] = { nullptr };
-	copy(handptr, copyptr, position);
-	copy(copyptr, handptr);
-	num_of_cards--;
-}
 
 int Hand::getHand_Value()
 {
