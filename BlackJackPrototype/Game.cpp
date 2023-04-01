@@ -143,17 +143,34 @@ void Game::resultofgame() {
 	if (gamestate > 3) {
 		cout << "\nYOU WIN!\n";
 		system("Color 60");
+		system("Color 60");
+		system("Color 60");
 		system("Color E0");
-		system("Color A0");
-		system("Color 20");
-		system("Color A0");
+		system("Color E0");
+		system("Color E0");
+		system("Color 90");
+		system("Color 90");
 		system("Color 90");
 		system("Color 10");
+		system("Color 10");
+		system("Color 10");
+		system("Color 90");
+		system("Color 90");
 		system("Color 90");
 		system("Color B0");
+		system("Color B0");
+		system("Color B0");
+		system("Color 30");
+		system("Color 30");
 		system("Color 30");
 		system("Color B0");
+		system("Color B0");
+		system("Color B0");
 		system("Color D0");
+		system("Color D0");
+		system("Color D0");
+		system("Color 50");
+		system("Color 50");
 		system("Color 50");
 	}
 	//Lose
