@@ -24,7 +24,7 @@ Game::Game()
 		_ << bal;
 		_.close();
 	}
-	cout << "Your current balance is:" << bal << endl;
+	cout << "Your current balance is: $" << bal << endl;
 }
 
 Game::~Game()
@@ -89,7 +89,7 @@ void Game::resultofgame() {
 
 
 	double multiplier = 0;
-	if (gamestate > 3 && gamestate == 6)
+	if (gamestate > 3 )
 	{
 		multiplier = 1.5;
 	}
@@ -141,10 +141,10 @@ void Game::resultofgame() {
 
 	//Win
 	if (gamestate > 3) {
-		cout << "\nYOU WIN!\n";
-		system("Color 60");
-		system("Color 60");
-		system("Color 60");
+		cout << "\nYOU WIN!\n";			//The reason this has statments repeating multiple times in a row
+		system("Color 60");				//is because it will blind you with flashing colors otherwise.
+		system("Color 60");				//Also system commands can not be set to execute faster or slower without
+		system("Color 60");				//text apperaing in the window, which affects the output of the game. 
 		system("Color E0");
 		system("Color E0");
 		system("Color E0");
@@ -195,13 +195,15 @@ void Game::PlayGame()
 	Hand* dhand = new Hand();
 
 
-	cout << "Welome to the game" << endl;
-	cout << "Enter ammount to bet: ";
+	cout << "Welcome to the game!" << endl;
+	cout << "Enter an ammount to bet: ";
 	cin >> betammount;
 	if (bal - betammount < 0)
 	{
 		gamestate = NOT_ENOUGH_MONEY;
-		resultofgame();
+		cout << "Error: Invalid funds." << endl; 
+		cout << "Enter 'y' to start a new game and enter an amount wihtin your balance range." << endl; 
+		//resultofgame();
 		return;
 	}
 	cout << "The dealer has:" << endl;
