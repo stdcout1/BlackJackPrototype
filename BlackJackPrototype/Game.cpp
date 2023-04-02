@@ -141,10 +141,10 @@ void Game::resultofgame() {
 
 	//Win
 	if (gamestate > 3) {
-		cout << "\nYOU WIN!\n";
-		system("Color 60");
-		system("Color 60");
-		system("Color 60");
+		cout << "\nYOU WIN!\n";			//The reason this has statments repeating multiple times in a row
+		system("Color 60");				//is because it will blind you with flashing colors otherwise.
+		system("Color 60");				//Also system commands can not be set to execute faster or slower without
+		system("Color 60");				//text apperaing in the window, which affects the output of the game. 
 		system("Color E0");
 		system("Color E0");
 		system("Color E0");
