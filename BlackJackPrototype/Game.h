@@ -4,7 +4,6 @@
 class Game
 {
 private:
-	const int RETURN_RATE = 1.5;
 
 	Hand* dh;
 	Hand* ph;
