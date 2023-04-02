@@ -211,7 +211,6 @@ void Game::PlayGame()
 	deck->Draw(dhand);
 	dhand->getHandptr()[0]->setFaceup(true);
 	cout << *dhand;
-	cout << dhand->getHand_Value() << endl;
 	cout << "You have: " << endl;
 	deck->Draw(phand);
 	deck->Draw(phand);
