@@ -24,7 +24,7 @@ Game::Game()
 		_ << bal;
 		_.close();
 	}
-	cout << "Your current balance is:" << bal << endl;
+	cout << "Your current balance is: $" << bal << endl;
 }
 
 Game::~Game()
@@ -89,7 +89,7 @@ void Game::resultofgame() {
 
 
 	double multiplier = 0;
-	if (gamestate > 3 && gamestate == 6)
+	if (gamestate > 3 )
 	{
 		multiplier = 1.5;
 	}
@@ -195,13 +195,15 @@ void Game::PlayGame()
 	Hand* dhand = new Hand();
 
 
-	cout << "Welome to the game" << endl;
-	cout << "Enter ammount to bet: ";
+	cout << "Welcome to the game!" << endl;
+	cout << "Enter an ammount to bet: ";
 	cin >> betammount;
 	if (bal - betammount < 0)
 	{
 		gamestate = NOT_ENOUGH_MONEY;
-		resultofgame();
+		cout << "Error: Invalid funds." << endl; 
+		cout << "Enter 'y' to start a new game and enter an amount wihtin your balance range." << endl; 
+		//resultofgame();
 		return;
 	}
 	cout << "The dealer has:" << endl;
